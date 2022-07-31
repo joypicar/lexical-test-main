@@ -11,7 +11,7 @@ import { Doc } from 'yjs'
 
 const url = new URL(window.location.href)
 const params = new URLSearchParams(url.search)
-const WEBSOCKET_ENDPOINT = 'ws://localhost:1234'
+const WEBSOCKET_ENDPOINT = 'wss://lexical-server.herokuapp.com'
 const WEBSOCKET_SLUG = 'playground'
 const WEBSOCKET_ID = params.get('collabId') || '0'
 
@@ -31,7 +31,8 @@ export function createWebsocketProvider(
 
   return new WebsocketProvider(
     WEBSOCKET_ENDPOINT,
-    WEBSOCKET_SLUG + '/' + WEBSOCKET_ID + '/' + id,
+    // WEBSOCKET_SLUG + '/' + WEBSOCKET_ID + '/' + id,
+    '',
     doc,
     {
       connect: false,
