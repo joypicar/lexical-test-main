@@ -11,27 +11,27 @@ import {render} from 'react-dom'
 import { App } from './App'
 
 // Standalone
-// ReactDOMClient.createRoot(document.getElementById('root')!).render(
-//   <React.StrictMode>
-//     <BrowserRouter>
-//       <Routes>
-//         <Route path="/" element={<PlaygroundApp />} />
-//         <Route path="/auto-focus" element={<AutoFocus />} />
-//       </Routes>
-//     </BrowserRouter>
-//   </React.StrictMode>
-// )
+ReactDOMClient.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<PlaygroundApp />} />
+        <Route path="/auto-focus" element={<AutoFocus />} />
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>
+)
 
 // Microfrontend
-class XSearch extends HTMLElement {
-  constructor() {
-      super();
-  }
-  connectedCallback() {
-    render(createElement(PlaygroundApp), this)
-  }
-}
-window.customElements.define('x-search', XSearch);
+// class XSearch extends HTMLElement {
+//   constructor() {
+//       super();
+//   }
+//   connectedCallback() {
+//     render(createElement(PlaygroundApp), this)
+//   }
+// }
+// window.customElements.define('x-search', XSearch);
 
 // class MyTitle extends HTMLElement {
 //   connectedCallback() {
