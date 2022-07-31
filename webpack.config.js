@@ -1,58 +1,65 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const { ModuleFederationPlugin } = require('webpack').container;
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-const deps = require("./package.json").dependencies;
 module.exports = {
-  output: {
-    publicPath: "http://localhost:3000/",
-  },
-
-  resolve: {
-    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
-  },
-
-  devServer: {
-    port: 3000,
-  },
-
-  module: {
-    rules: [
-      {
-        test: /\.m?js/,
-        type: "javascript/auto",
-        resolve: {
-          fullySpecified: false,
-        },
-      },
-      {
-        test: /\.(css|s[ac]ss)$/i,
-        use: ["style-loader", "css-loader", "postcss-loader"],
-      },
-      {
-        test: /\.(ts|tsx|js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-        },
-      },
+    entry: "./src/index.tsx",
+    output: {
+        path: path.join(__dirname, '/dist'),
+        filename: 'index.bundle.js',
+    },
+    devServer: {
+        port: 3010,
+        watchContentBase: true,
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader'
+                }
+            },    
+            {
+                test: /\.(css|scss)$/,
+                use: [{
+                  loader: MiniCssExtractPlugin.loader,
+                }, {
+                  loader: 'css-loader',
+                  options: {
+                    sourceMap: true, // <-- !!IMPORTANT!!
+                  }
+                }, {
+                  loader: 'sass-loader',
+                  options: {
+                    sourceMap: true, // <-- !!IMPORTANT!!
+                  }
+                }
+              ],
+            },              
+            { test: /\.(jpg|jpeg|png|svg|gif|woff|woff2|otf|ttf)$/, use: 'ignore-loader' },
+            {
+              test: /\.(ts|js)x?$/,
+              exclude: /node_modules/,
+              use: {
+                loader: "babel-loader",
+                options: {
+                  presets: [
+                    "@babel/preset-env",
+                    "@babel/preset-react",
+                    "@babel/preset-typescript",
+                  ],
+                },
+              },
+            },
+        ]
+    },
+    resolve: {
+      extensions: [".js", ".jsx", ".tsx", ".ts"],
+    },
+    plugins: [
+      new MiniCssExtractPlugin(),
+    
     ],
-  },
-
-  plugins: [
-    new ModuleFederationPlugin({
-      name: "remote",
-      filename: "remoteEntry.js",
-      remotes: {},
-      shared: {
-        ...deps,
-        "solid-js": {
-          singleton: true,
-          requiredVersion: deps["solid-js"],
-        },
-      },
-    }),
-    new HtmlWebPackPlugin({
-      template: "./src/index.html",
-    }),
-  ],
 };

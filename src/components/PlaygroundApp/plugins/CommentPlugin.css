@@ -142,7 +142,7 @@ i.add-comment {
 
 .CommentPlugin_ShowCommentsButton {
   position: fixed;
-  top: 10px;
+  top: 100px;
   right: 10px;
   background-color: #ddd;
   border-radius: 10px;
@@ -171,8 +171,8 @@ i.comments {
   position: fixed;
   right: 0;
   width: 300px;
-  height: calc(100% - 88px);
-  top: 88px;
+  height: calc(100% - 200px);
+  bottom: 0;
   background-color: #fff;
   border-top-left-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
