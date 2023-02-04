@@ -22,6 +22,13 @@ export default defineConfig({
     setupFiles: 'src/test/setup.ts',
   },
   build: {
-    outDir: './dist'
+    outDir: './dist',
+    rollupOptions: {
+      output: {
+        entryFileNames: `assets/[name].js`,
+        chunkFileNames: `assets/[name].js`,
+        assetFileNames: `assets/[name].[ext]`
+      }
+    }
   }
 })
